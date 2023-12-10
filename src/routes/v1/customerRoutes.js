@@ -1,50 +1,27 @@
 const express = require('express');
 const { route } = require('./userRoutes');
 const router = express.Router();
+const customerController  = require('../../controllers/customerController');
 
 //========= GET ===========
-router.get('/:id', (req, res) => {
-    let id = req.params.id;
-    console.log(id);
-    res.status(200).json({ msg: `Method Get have ID : ${id} ` })
-})
+router.get('/:id', customerController.get);
 
-
+/* 
 router.get('/', (req, res) => {
     const { page, sort } = req.query;
     console.log(page, sort);
     res.status(200).json({ msg: `Get Page: ${page}   Get Sort: ${sort}` });
-});
+});*/
 
 //========= POST ===========
 
-router.post('/',(req, res) => {
-    const {cusName , gender} = req.body;
-    console.log(cusName , gender);
-    res.status(200).json({
-        cusName,
-        gender
-    });
-});
+router.post('/', customerController.creat);
 
 //========= PUT ===========
-router.put('/',(req, res) => {
-    const {cusName , gender} = req.body;
-    console.log(cusName , gender);
-    res.status(200).json({
-        cusName,
-        gender
-    });
-});
+router.put('/',customerController.update);
 
 //======== DELETE ==========
-router.delete('/:id', (req, res) =>{
-    const id = req.params.id;
-
-    console.log(`DELETE SUCCESS: ${id}`);
-    res.status(200).json({msg:`DELETE SUCCESS: ${id}`});
-
-});
+router.delete('/:id', customerController.delete);
 
 
 
