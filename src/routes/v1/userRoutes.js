@@ -2,7 +2,7 @@ const express = require('express');
 const userController = require('../../controllers/userController')
 const router = express.Router();
 
-router.get('/:id', userController.get);
+router.get('/', userController.getAll);
 
 /*router.get('/', (req, res) => {
     const { page, sort } = req.query;
@@ -12,7 +12,7 @@ router.get('/:id', userController.get);
 
 router.post('/', userController.creat );
 
-router.put('/', userController.update);
+router.put('/:id', userController.update);
 
 router.delete('/:id', userController.delete);
 

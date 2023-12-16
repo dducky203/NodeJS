@@ -1,49 +1,63 @@
+const customerSevice = require("../services/customerSevice");
+
 class customerController {
     //========= GET ===========
-    get = (req, res, next) =>{
-        try {
-            let id = req.params.id;
-            console.log(id);
-            res.status(200).json({ msg: `Method Get have ID : ${id} ` });
-        } catch (error) {
-            throw(error);
-        }
+    getAllCus = async (req, res, next) => {
+        //Goi den service
+        const customers = await customerSevice.getAllCus();
+        res.status(200).json({ customers });
+
     }
 
     //========= POST ===========
-    creat = (req, res, next) =>{
+    creat = async (req, res, next) => {
         try {
-            const {cusName , gender} = req.body;
-            console.log(cusName , gender);
-            res.status(200).json({
-                cusName,
-                gender
-        });
+            //Goi den service
+            const { fullName, phone, email, address, birthday, gender } = req.body;
+
+            let data = { fullName, phone, email, address, birthday, gender };
+            const customer = await customerSevice.creat(data);
+
+            res.status(200).json({ customer });
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
     //========= PUT ===========
-    update = (req, res, next) =>{
+    update = async (req, res, next) => {
         try {
-            const {cusName , gender} = req.body;
-            console.log(cusName , gender);
-            res.status(200).json({
-                cusName,
-                gender
-        });
+            //Goi den service
+            const { fullName, phone, email, address, birthday, gender } = req.body;
+            const { id } = req.params;
+
+            let data = { fullName, phone, email, address, birthday, gender };
+            const result = await customerSevice.update(id, data);
+
+            if (result) {
+                res.status(200).json({ "msg": "Update Success" });
+            } else {
+                throw new Error("Update Fail!");
+            }
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
     //======== DELETE ==========
-    delete = (req, res, next) =>{
+    delete = async (req, res, next) => {
         try {
-            const id = req.params.id;
-            console.log(`DELETE SUCCESS: ${id}`);
-            res.status(200).json({msg:`DELETE SUCCESS: ${id}`});
+            //Goi den service
+            const {id} = req.params;
+            const result = await customerSevice.delete(id);
+
+            if (result){
+                res.status(200).json({ "msg": "DELETE SUCCESS" });
+            }else{
+                throw new Error("DELETE FAIL!")
+            }    
+            
         } catch (error) {
             throw (error);
         }

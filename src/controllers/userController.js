@@ -1,53 +1,69 @@
+const userService = require("../services/userService");
+
 class userController {
-    creat = (req, res, next) => {
+    creat = async (req, res, next) => {
         try {
-            const { username, password } = req.body;
-            // console.log(username, password);
-             abc();
-            res.status(200).json({
-            username,
-            password
-    });
+            const { username, email, phone, age } = req.body;
+            //goi den tang service
+
+            let data = { username, email, phone, age };
+            const user = await userService.creat(data);
+
+            res.status(200).json({ user });
         } catch (error) {
-           throw(error);
+            throw (error);
         }
     }
 
-    get = (req, res, next) => {
+    getAll = async (req, res, next) => {
         try {
-            let id = req.params.id;
-            console.log(id);
-            res.status(200).json({msg: `Get Id : ${id}`});
+            //Goi den service
+            const users = await userService.get();
+            res.status(200).json({ users });
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
-    update = (req, res, next) => {
+    update = async (req, res, next) => {
         try {
-            const { username, password } = req.body;
-            // console.log(username, password);
-            // abc();
-            res.status(200).json({
-            username,
-            password
-    });
+            const { username, email, phone, age } = req.body;
+            const { id } = req.params;
+
+            //goi den tang service
+
+            let data = { username, email, phone, age };
+            const result = await userService.update(id, data);
+            if (result) {
+               res.status(200).json({ 'msg': 'Updated' });
+            } else {
+                throw new Error('Update fail!');
+            }
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
-    delete = (req, res, next) => {
+    delete = async (req, res, next) => {
         try {
-            const id = req.params.id;
-            ;
-            console.log(id);
-            res.status(200).json({id});
+            const { id } = req.params;
+
+            //goi den tang service
+
+            const result = await userService.delete(id);
+            if (result) {
+               res.status(200).json({ 'msg': 'Deleted' });
+            } else {
+                throw new Error('Delete fail!');
+            }
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 };
 
 
-module.exports = new userController ();
+module.exports = new userController();
