@@ -3,7 +3,7 @@ const router = express.Router();
 const productController = require('../../controllers/productController');
 
 //========= GET ===========
-router.get('/:id', productController.get);
+
 
 /* 
 router.get('/',(req, res)=>{
@@ -12,11 +12,13 @@ router.get('/',(req, res)=>{
     res.status(200).json({msg:`Page : ${page}  Name: ${name}` });
 })*/
 
+router.get('/', productController.getAllProducts);
+
 //========= POST ===========
 router.post('/', productController.creat);
 
 //========= PUT ===========
-router.put('/', productController.update);
+router.put('/:id', productController.update);
 
 //======== DELETE ==========
 router.delete('/:id', productController.delete);

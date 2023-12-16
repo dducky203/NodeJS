@@ -1,50 +1,69 @@
+const productService = require("../services/productService");
+
 class productController {
 
     //========= GET ===========
-    get = (req, res, next) =>{
+    getAllProducts = async (req, res, next) => {
         try {
-            let id = req.params.id;
-            console.log(id);
-            res.status(200).json({msg:`Method Get from product have id: ${id} `});
+
+            const products = await productService.getAllProducts();
+            res.status(200).json({ products });
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
     //========= POST ===========
-    creat = (req, res, next) =>{
+    creat = async (req, res, next) => {
         try {
-            const { productName, quantity } = req.body;
-            console.log(productName, quantity);
-            res.status(200).json({
-                productName,
-                quantity
-            });
+            const { productName, produce, yearOfManufacture, quantity, price } = req.body;
+            let data = { productName, produce, yearOfManufacture, quantity, price };
+
+            const products = await productService.creat(data);
+
+            res.status(200).json({ products });
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
     //========= PUT ===========
-    update = (req, res, next) =>{
+    update = async (req, res, next) => {
         try {
-            const { productName, quantity } = req.body;
-            console.log(productName, quantity);
-            res.status(200).json({
-                productName,
-                quantity
-            });
+            const { productName, produce, yearOfManufacture, quantity, price } = req.body;
+            const { id } = req.params;
+            let data = { productName, produce, yearOfManufacture, quantity, price };
+
+            const result = await productService.update(id, data);
+
+            if (result) {
+                res.status(200).json({ "msg": "Update Success" });
+            } else {
+                throw new Error("Update Fail !");
+            }
+
+
+
+
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
 
     //======== DELETE ==========
-    delete = (req, res, next) =>{
+    delete = async (req, res, next) => {
         try {
-            const id = req.params.id;
-            console.log(`DELETE SUCCESS PRODUCT HAVE ID: ${id}`);
-            res.status(200).json({msg:`DELETE SUCCESS PRODUCT HAVE ID: ${id}`});
+            const { id } = req.params;
+            const result = await productService.delete(id);
+
+            if (result) {
+                res.status(200).json({ "msg": "DELETE SUCCESS PRODUCT " });
+            } else {
+                throw new Error("Update Fail !");
+            }
+
         } catch (error) {
             throw (error);
         }
@@ -53,4 +72,4 @@ class productController {
 
 };
 
-module.exports = new productController ();
+module.exports = new productController();
