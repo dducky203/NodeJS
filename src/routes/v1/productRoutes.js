@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../../controllers/productController');
+const validateProductData = require('../../middlewares/validateProductData');
+const verifyToken = require('../../middlewares/verifyToken');
 
 //========= GET ===========
 
@@ -15,7 +17,7 @@ router.get('/',(req, res)=>{
 router.get('/', productController.getAllProducts);
 
 //========= POST ===========
-router.post('/', productController.creat);
+router.post('/',validateProductData,verifyToken, productController.creat);
 
 //========= PUT ===========
 router.put('/:id', productController.update);
