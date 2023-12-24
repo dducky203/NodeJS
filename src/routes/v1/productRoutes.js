@@ -14,16 +14,16 @@ router.get('/',(req, res)=>{
     res.status(200).json({msg:`Page : ${page}  Name: ${name}` });
 })*/
 
-router.get('/', productController.getAllProducts);
+router.get('/', verifyToken, productController.getAllProducts);
 
 //========= POST ===========
-router.post('/',validateProductData,verifyToken, productController.creat);
+router.post('/', validateProductData, verifyToken, productController.creat);
 
 //========= PUT ===========
-router.put('/:id', productController.update);
+router.put('/:id', validateProductData, verifyToken, productController.update);
 
 //======== DELETE ==========
-router.delete('/:id', productController.delete);
+router.delete('/:id', validateProductData, verifyToken, productController.delete);
 
 
 module.exports = router;

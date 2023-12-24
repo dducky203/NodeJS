@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const customerController  = require('../../controllers/customerController');
+const validateCustomerData = require('../../middlewares/validateCustomerData');
+const verifyToken = require('../../middlewares/verifyToken');
+
 
 //========= GET ===========
-router.get('/', customerController.getAllCus);
+router.get('/', verifyToken,customerController.getAllCus);
 
 /* 
 router.get('/', (req, res) => {
@@ -14,13 +17,13 @@ router.get('/', (req, res) => {
 
 //========= POST ===========
 
-router.post('/', customerController.creat);
+router.post('/',validateCustomerData, verifyToken, customerController.creat);
 
 //========= PUT ===========
-router.put('/:id',customerController.update);
+router.put('/:id',validateCustomerData, verifyToken,customerController.update);
 
 //======== DELETE ==========
-router.delete('/:id', customerController.delete);
+router.delete('/:id', validateCustomerData, verifyToken,customerController.delete);
 
 
 

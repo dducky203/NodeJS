@@ -35,7 +35,7 @@ const validateUserData = (req, res, next) => {
 
 
 
-router.get('/', userController.getAll);
+router.get('/',verifyToken, userController.getAll);
 
 /*router.get('/', (req, res) => {
     const { page, sort } = req.query;
@@ -45,9 +45,9 @@ router.get('/', userController.getAll);
 
 router.post('/',validateUserData, verifyToken, userController.creat );
 
-router.put('/:id', userController.update);
+router.put('/:id',validateUserData, verifyToken, userController.update);
 
-router.delete('/:id', userController.delete);
+router.delete('/:id',validateUserData, verifyToken, userController.delete);
 
 
 
